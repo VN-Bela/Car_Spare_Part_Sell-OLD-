@@ -1,2 +1,12 @@
 <h1>Car Part Selling</h1>
-<p><a href="#">Click Here</a>for More Details</p>
+{% block content%}
+<p>Parts Category:</p>
+<table cellpadding="10px">
+    <tr><th>Car Parts Name</th><th>Car Parts Information</th></tr>
+    {% for data in car_list %}
+    <tr><td><a href="url 'car_detail' Car.id ">{{data.Car_Part_Name}}</a></td><td>{{data.Car_Part_Info}}</td></tr>
+    {% endfor %}
+
+</table>
+
+{% endblock %}
