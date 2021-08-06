@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.views.generic import ListView,CreateView
+from django.views.generic.base import TemplateView
 from .models import Car,User,Seller
 from django.contrib.auth import login
-from .forms import Car_Part_Form,SellerSignUpFrom,UserSignupForm
+from .forms import Car_Part_Form,SellerSignUpFrom,BuyerSignupForm
 
 # Create your views here.
 # function based View
@@ -41,30 +42,36 @@ class CarDetailIndexView(ListView):
     model=Car
     template_name="Car/Car_detail.html"
 
+# Signup View
+class SignupView(TemplateView):
+    template_name='registration/signup_form.html'
+
+
 # Userview
-class UserSignUpView(CreateView):
+class BuyerSignUpView(CreateView):
     model=User
-    form_class=UserSignupForm
-    template_name='Car/signup_form.html'
+    form_class=BuyerSignupForm
+    template_name='registration/signup.html'
+
     def get_context_data(self, **kwargs):
         kwargs['user_type']='user'
         return super().get_context_data(**kwargs)
     def form_valid(self,form):
         user=form.save()
-        login(self.request,user)
+        #login(self.request,user)
         return redirect('Car:parts_data')
 
 #seller Signup
 class SellerSignUpView(CreateView):
     model=User
     form_class=SellerSignUpFrom
-    template_name="Car/signup_form.html"
+    template_name="registration/signup.html"
     def get_context_data(self, **kwargs):
         kwargs['user_type']='seller'
         return super().get_context_data(**kwargs)
     def form_valid(self,form):
         user=form.save()
-        login(self.request,user)
+        #login(self.request,user)
         return redirect('Car:parts_data')
 
 
